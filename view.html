@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gallery | S V CLICKS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#050505;
+    color:white;
+    min-height:100vh;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    height:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.back{
+    position:absolute;
+    left:22px;
+    top:30px;
+    font-size:35px;
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.back:hover{
+    color:#aaa;
+    transform:translateX(-5px);
+}
+
+.title{
+    text-align:center;
+    font-size:34px;
+    font-weight:bold;
+    color:white;
+}
+
+.underline{
+    width:55px;
+    height:5px;
+    background:white;
+    border-radius:10px;
+    margin:12px auto 0;
+    box-shadow:0 0 15px rgba(255,255,255,.45);
+}
+
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.categories{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    padding:15px 20px 25px;
+    scrollbar-width:none;
+}
+
+.categories::-webkit-scrollbar{
+    display:none;
+}
+
+.filter{
+    border:none;
+    outline:none;
+    background:#151515;
+    color:white;
+    padding:15px 27px;
+    border-radius:15px;
+    font-size:17px;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:.3s;
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.filter:hover{
+    border-color:white;
+    background:#222;
+    transform:translateY(-3px);
+}
+
+.filter.active{
+    background:white;
+    color:black;
+    border-color:white;
+    box-shadow:0 0 18px rgba(255,255,255,.25);
+}
+
+
+/* =========================
+   GALLERY
+========================= */
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:5px 15px 40px;
+}
+
+
+/* PHOTO CARD */
+
+.photo{
+    position:relative;
+    height:280px;
+    overflow:hidden;
+    border-radius:20px;
+    background:#101010;
+    border:1px solid rgba(255,255,255,.12);
+    cursor:pointer;
+    transition:.4s;
+}
+
+.photo:hover{
+    transform:translateY(-7px);
+    border-color:white;
+    box-shadow:0 10px 30px rgba(255,255,255,.12);
+}
+
+
+/* IMAGE */
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.6s;
+}
+
+.photo:hover img{
+    transform:scale(1.08);
+    filter:brightness(1.08);
+}
+
+
+/* DARK GRADIENT */
+
+.photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.55),
+            transparent 55%
+        );
+    pointer-events:none;
+}
+
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.95);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+}
+
+.lightbox.show{
+    display:flex;
+}
+
+
+/* BIG IMAGE */
+
+.lightbox img{
+    max-width:95%;
+    max-height:85vh;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.3);
+    box-shadow:0 0 35px rgba(255,255,255,.15);
+}
+
+
+/* CLOSE */
+
+.close{
+    position:absolute;
+    right:25px;
+    top:18px;
+    font-size:40px;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+    z-index:1001;
+}
+
+.close:hover{
+    transform:rotate(90deg);
+    color:#aaa;
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:768px){
+
+    .gallery{
+        grid-template-columns:repeat(3,1fr);
+        max-width:1100px;
+        margin:auto;
+        gap:18px;
+    }
+
+    .photo{
+        height:350px;
+    }
+
+    .categories{
+        justify-content:center;
+        overflow:visible;
+    }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media(max-width:400px){
+
+    .title{
+        font-size:29px;
+    }
+
+    .filter{
+        padding:13px 21px;
+        font-size:15px;
+    }
+
+    .photo{
+        height:220px;
+        border-radius:15px;
+    }
+
+    .gallery{
+        gap:9px;
+        padding:5px 10px 30px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <a href="index.html" class="back">
+        ←
+    </a>
+
+    <div>
+
+        <div class="title">
+            Gallery
+        </div>
+
+        <div class="underline"></div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     CATEGORIES
+     ALL OPTION REMOVED
+========================= -->
+
+<div class="categories">
+
+    <button
+        class="filter active"
+        data-filter="wedding">
+
+        Wedding
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="bride">
+
+        Bride
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="groom">
+
+        Groom
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="couple">
+
+        Couple
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     GALLERY
+========================= -->
+
+<div class="gallery">
+
+
+    <!-- =========================
+         WEDDING - 15 IMAGES
+    ========================= -->
+
+    <div class="photo" data-category="wedding">
+        <img src="w/01.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/02.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/03.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/04.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/05.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/06.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/07.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/08.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/09.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/10.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/11.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/12.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/13.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/14.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="wedding">
+        <img src="w/15.jpg" alt="Wedding Photography" loading="lazy">
+    </div>
+
+
+
+    <!-- =========================
+         BRIDE - 31 IMAGES
+    ========================= -->
+
+    <div class="photo" data-category="bride">
+        <img src="b/01.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/02.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/03.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/04.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/05.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/06.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/07.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/08.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/09.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/10.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/11.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/12.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/13.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/14.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/15.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/16.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/17.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/18.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/19.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/20.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/21.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/22.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/23.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/24.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/25.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/26.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/27.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/28.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/29.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/30.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="bride">
+        <img src="b/31.jpg" alt="Bride Photography" loading="lazy">
+    </div>
+
+
+
+    <!-- =========================
+         GROOM - 12 IMAGES
+    ========================= -->
+
+    <div class="photo" data-category="groom">
+        <img src="g/01.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/02.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/03.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/04.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/05.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/06.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/07.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/08.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/09.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/10.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/11.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="groom">
+        <img src="g/12.jpg" alt="Groom Photography" loading="lazy">
+    </div>
+
+
+
+    <!-- =========================
+         COUPLE - 23 IMAGES
+    ========================= -->
+
+    <div class="photo" data-category="couple">
+        <img src="c/01.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/02.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/03.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/04.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/05.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/06.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/07.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/08.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/09.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/10.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/11.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/12.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/13.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/14.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/15.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/16.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/17.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/18.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/19.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/20.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/21.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/22.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+    <div class="photo" data-category="couple">
+        <img src="c/23.jpg" alt="Couple Photography" loading="lazy">
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     LIGHTBOX
+========================= -->
+
+<div class="lightbox" id="lightbox">
+
+    <span class="close" id="close">
+        ×
+    </span>
+
+    <img
+        id="lightboxImg"
+        src=""
+        alt="Gallery Image">
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   FILTER
+========================= */
+
+const filters = document.querySelectorAll(".filter");
+const photos = document.querySelectorAll(".photo");
+
+
+/*
+   PAGE LOAD PAR WEDDING
+   J BATAVVU
+*/
+
+function showCategory(category){
+
+    photos.forEach(photo => {
+
+        if(photo.dataset.category === category){
+
+            photo.style.display = "block";
+
+        }else{
+
+            photo.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/*
+   DEFAULT CATEGORY
+   WEDDING
+*/
+
+showCategory("wedding");
+
+
+/*
+   FILTER BUTTON CLICK
+*/
+
+filters.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        filters.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        const filter = button.dataset.filter;
+
+        showCategory(filter);
+
+    });
+
+});
+
+
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+const lightbox =
+document.getElementById("lightbox");
+
+const lightboxImg =
+document.getElementById("lightboxImg");
+
+const close =
+document.getElementById("close");
+
+
+/*
+   OPEN LIGHTBOX
+*/
+
+photos.forEach(photo => {
+
+    photo.addEventListener("click", () => {
+
+        const img =
+        photo.querySelector("img");
+
+        lightboxImg.src = img.src;
+
+        lightbox.classList.add("show");
+
+        document.body.style.overflow = "hidden";
+
+    });
+
+});
+
+
+/*
+   CLOSE BUTTON
+*/
+
+close.addEventListener("click", () => {
+
+    lightbox.classList.remove("show");
+
+    lightboxImg.src = "";
+
+    document.body.style.overflow = "";
+
+});
+
+
+/*
+   CLICK OUTSIDE
+*/
+
+lightbox.addEventListener("click", (e) => {
+
+    if(e.target === lightbox){
+
+        lightbox.classList.remove("show");
+
+        lightboxImg.src = "";
+
+        document.body.style.overflow = "";
+
+    }
+
+});
+
+
+/*
+   ESC KEY
+*/
+
+document.addEventListener("keydown", (e) => {
+
+    if(e.key === "Escape"){
+
+        lightbox.classList.remove("show");
+
+        lightboxImg.src = "";
+
+        document.body.style.overflow = "";
+
+    }
+
+});
+
+</script>
+
+
+</body>
+</html>

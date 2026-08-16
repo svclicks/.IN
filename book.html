@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Book Now | MAA Studio</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:url("IMG_20250520_124246.jpg") center/cover no-repeat fixed;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:25px;
+
+    position:relative;
+
+    color:white;
+}
+
+/* DARK OVERLAY */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,.78);
+
+}
+
+/* BOOKING BOX */
+
+.booking{
+
+    position:relative;
+
+    z-index:10;
+
+    width:100%;
+    max-width:700px;
+
+    background:rgba(0,0,0,.72);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.25);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.7);
+
+}
+
+/* TITLE */
+
+.booking h2{
+
+    text-align:center;
+
+    font-size:38px;
+
+    margin-bottom:30px;
+
+    color:#ffffff;
+
+    letter-spacing:1px;
+
+}
+
+/* INPUTS */
+
+.booking input,
+.booking select,
+.booking textarea{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:18px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+/* PLACEHOLDER */
+
+.booking input::placeholder,
+.booking textarea::placeholder{
+
+    color:#cfcfcf;
+
+}
+
+/* SELECT */
+
+.booking select{
+
+    color:white;
+
+    background:#111;
+
+}
+
+/* SELECT OPTIONS */
+
+.booking select option{
+
+    background:#111;
+
+    color:white;
+
+}
+
+/* FOCUS EFFECT */
+
+.booking input:focus,
+.booking select:focus,
+.booking textarea:focus{
+
+    border:1px solid white;
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.25);
+
+    background:rgba(255,255,255,.12);
+
+}
+
+/* TEXTAREA */
+
+.booking textarea{
+
+    height:120px;
+
+    resize:none;
+
+}
+
+/* BUTTON */
+
+.booking button{
+
+    width:100%;
+
+    padding:16px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:#ffffff;
+
+    color:#000000;
+
+    transition:.3s;
+
+}
+
+/* BUTTON HOVER */
+
+.booking button:hover{
+
+    transform:translateY(-3px);
+
+    background:#000;
+
+    color:white;
+
+    border:1px solid white;
+
+    box-shadow:
+        0 10px 30px rgba(255,255,255,.20);
+
+}
+
+/* INPUT HOVER */
+
+.booking input:hover,
+.booking select:hover,
+.booking textarea:hover{
+
+    border-color:rgba(255,255,255,.45);
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    body{
+
+        padding:18px;
+
+    }
+
+    .booking{
+
+        padding:25px;
+
+        border-radius:20px;
+
+    }
+
+    .booking h2{
+
+        font-size:30px;
+
+        margin-bottom:25px;
+
+    }
+
+    .booking input,
+    .booking select,
+    .booking textarea{
+
+        font-size:15px;
+
+        padding:14px;
+
+    }
+
+    .booking button{
+
+        font-size:17px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="booking">
+
+    <h2>Booking Appointment</h2>
+
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Full Name">
+
+
+    <input
+        type="tel"
+        id="mobile"
+        placeholder="Mobile Number">
+
+
+    <input
+        type="text"
+        id="address"
+        placeholder="Address">
+
+
+    <select id="package">
+
+        <option>Wedding Package</option>
+
+        <option>Pre Wedding</option>
+
+        <option> Event</option>
+
+        <option>Fashion & commercial</option>
+
+        <option> Custum</option>
+   <option> Potrait</option>
+
+
+    </select>
+
+
+    <input
+        type="date"
+        id="date">
+
+
+    <textarea
+        id="message"
+        placeholder="Write Your Requirements"></textarea>
+
+
+    <button onclick="sendWhatsApp()">
+
+        Book On WhatsApp
+
+    </button>
+
+</div>
+
+
+
+<script>
+
+function sendWhatsApp(){
+
+    let phone="916351023491";
+
+
+    let name =
+        document.getElementById("name").value;
+
+    let mobile =
+        document.getElementById("mobile").value;
+
+    let address =
+        document.getElementById("address").value;
+
+    let packageName =
+        document.getElementById("package").value;
+
+    let date =
+        document.getElementById("date").value;
+
+    let message =
+        document.getElementById("message").value;
+
+
+    let text =
+        "- *New Booking Request*%0A%0A" +
+
+        " Name : " +
+        encodeURIComponent(name) +
+        "%0A" +
+
+        " Mobile : " +
+        encodeURIComponent(mobile) +
+        "%0A" +
+
+        " Address : " +
+        encodeURIComponent(address) +
+        "%0A" +
+
+        " Package : " +
+        encodeURIComponent(packageName) +
+        "%0A" +
+
+        "Date : " +
+        encodeURIComponent(date) +
+        "%0A" +
+
+        " Message : " +
+        encodeURIComponent(message);
+
+
+    window.open(
+        "https://wa.me/" + phone + "?text=" + text,
+        "_blank"
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>
